@@ -4,9 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.moviewatcher.model.Video
+import androidx.room.TypeConverters
+import com.example.moviewatcher.model.SourcesConverter
+import com.example.moviewatcher.model.VideoInfo
 
-@Database(entities = [Video::class], version = 1, exportSchema = false)
+@Database(entities = [VideoInfo::class], version = 1, exportSchema = false)
+@TypeConverters(SourcesConverter::class)
 abstract class VideoDB: RoomDatabase() {
 
     abstract fun getIAppDao(): IAppDao
