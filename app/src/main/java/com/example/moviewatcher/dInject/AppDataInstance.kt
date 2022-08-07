@@ -15,18 +15,12 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class AppDataInstance(application: Application) {
-    private lateinit var retrofit: Retrofit
-    private val BASE_URL = "https://raw.githubusercontent.com/"
-    private var application: Application
-
-    init {
-        this.application = application!!
-    }
+class AppDataInstance {
+    val BASE_URL = "https://raw.githubusercontent.com/"
 
     @Provides
     @Singleton
-    fun getAppDatabase(context: Application): VideoDB {
+    fun getVideoDatabase(context: Application): VideoDB {
         return VideoDB.getVideoDBInstance(context)
     }
 
@@ -37,22 +31,18 @@ class AppDataInstance(application: Application) {
     }
 
 
-
     @Provides
     @Singleton
-    fun getRetrofitService(retrofit: Retrofit): IRetrofitServices{
+    fun getRetrofitService(retrofit: Retrofit): IRetrofitServices {
         return retrofit.create(IRetrofitServices::class.java)
     }
 
     @Provides
     @Singleton
     fun getRetroInstance(): Retrofit {
-        if (retrofit == null) {
-            retrofit = Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        }
-        return retrofit!!.create(Retrofit::class.java)
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
     }
 }
