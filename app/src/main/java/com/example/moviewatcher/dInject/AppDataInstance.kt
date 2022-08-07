@@ -1,6 +1,7 @@
 package com.example.moviewatcher.dInject
 
 import android.app.Application
+import com.example.moviewatcher.Utils.Constants
 import com.example.moviewatcher.db.IAppDao
 import com.example.moviewatcher.db.VideoDB
 import com.example.moviewatcher.network.IRetrofitServices
@@ -16,8 +17,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class AppDataInstance {
-    val BASE_URL = "https://raw.githubusercontent.com/"
-
     @Provides
     @Singleton
     fun getVideoDatabase(context: Application): VideoDB {
@@ -41,7 +40,7 @@ class AppDataInstance {
     @Singleton
     fun getRetroInstance(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

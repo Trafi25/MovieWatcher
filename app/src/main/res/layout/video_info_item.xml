@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="video"
+            type="com.example.moviewatcher.model.Video" />
+
+    </data>
+
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="6dp"
+    card_view:cardBackgroundColor="@color/white2"
+    card_view:cardElevation="6dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginEnd="5dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginBottom="5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="142dp"
+        android:layout_margin="4dp"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/video_picture"
+            android:layout_width="170dp"
+            android:layout_height="126dp"
+            android:scaleType="fitXY"
+
+            />
+
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toEndOf="@+id/video_picture"
+            android:text="@{video.title}"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/subtitleTextView"
+            android:layout_width="193dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/titleTextView"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toEndOf="@+id/video_picture"
+            android:text="@{video.subtitle}"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/descriptionTextView"
+            android:layout_width="192dp"
+            android:layout_height="79dp"
+            android:textSize="10sp"
+            android:layout_below="@+id/subtitleTextView"
+            android:layout_marginStart="18dp"
+            android:layout_toEndOf="@+id/video_picture"
+
+            android:text="@{video.description}" />
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
+</layout>

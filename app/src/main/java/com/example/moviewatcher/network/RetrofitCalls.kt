@@ -11,58 +11,39 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
 
-class RetrofitCalls @Inject constructor(private val IRetrofitServices: IRetrofitServices,
-                                        private val appDao: IAppDao
+class RetrofitCalls @Inject constructor(
+    private val IRetrofitServices: IRetrofitServices,
+    private val appDao: IAppDao
 ) {
 
     fun getAllVideos(): LiveData<List<Video>> {
         return appDao.getAllVideoInfos()
     }
 
-    fun insertVideo(repositoryData: Video) {
+    private fun insertVideo(repositoryData: Video) {
         appDao.insertVideoInfos(repositoryData)
     }
-/*    fun makeApiCall() {
-        val call: Call<ListInfo> = retroServiceInterface.getDataFromAPI()
-        call?.enqueue(object : Callback<ListInfo>{
-            override fun onResponse(
-                call: Call<ListInfo>,
-                response: Response<ListInfo>
-            ) {
-                appDao.deleteAllVideoInfo()
-                var rootInfo: ListInfo? = response.body()
-                if (rootInfo != null) {
-                    var frg = rootInfo.videos as ArrayList<Video>
-                    for (result: Video in frg) {
-                        var fsd = result
-                        insertRecord(result)
 
+    private fun deleteAllVideoInfo() {
+        appDao.deleteAllVideoInfo()
+    }
+
+    fun getVideoList() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val response: Response<ListInfo> = IRetrofitServices.getDataFromAPI()
+            if (response.isSuccessful) {
+                deleteAllVideoInfo()
+                val rootInfo: ListInfo? = response.body()
+                if (rootInfo != null) {
+                    val videoList = rootInfo.videos as ArrayList<Video>
+                    for (result: Video in videoList) {
+                        Log.d("this_out", result.title.toString())
+                        insertVideo(result)
                     }
                 }
-            }
-            override fun onFailure(call: Call<ListInfo>, t: Throwable) {
+            } else {
                 Log.d("watas", "i hate life")
             }
-        })
-    }*/
-
-     fun getVideoList() {
-        CoroutineScope(Dispatchers.IO).launch  {
-        val response: Response<ListInfo> = IRetrofitServices.getDataFromAPI()
-        if(response.isSuccessful){
-            appDao.deleteAllVideoInfo()
-            var rootInfo: ListInfo? = response.body()
-            if (rootInfo != null) {
-                var frg = rootInfo.videos as ArrayList<Video>
-                for (result: Video in frg) {
-                    insertVideo(result)
-                }
-                }
-        }else{
-            Log.d("watas", "i hate life")
-        }
-
-
         }
     }
 }

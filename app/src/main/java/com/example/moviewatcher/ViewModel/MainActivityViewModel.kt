@@ -10,13 +10,11 @@ import javax.inject.Inject
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
     private val repository: RetrofitCalls
-)
-    : ViewModel(){
+) : ViewModel() {
 
     fun getAllVideoList(): LiveData<List<Video>> {
         return repository.getAllVideos()
     }
-
     fun makeApiRequest() {
         repository.getVideoList()
     }

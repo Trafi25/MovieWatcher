@@ -10,18 +10,19 @@ import com.example.moviewatcher.model.Video
 
 @Database(entities = [Video::class], version = 1, exportSchema = false)
 @TypeConverters(SourcesConverter::class)
-abstract class VideoDB: RoomDatabase() {
+abstract class VideoDB : RoomDatabase() {
 
     abstract fun getIAppDao(): IAppDao
 
     companion object {
         private var dbInstance: VideoDB? = null
-
         fun getVideoDBInstance(context: Context): VideoDB {
-            if(dbInstance == null) {
-                dbInstance =  Room.databaseBuilder(context.applicationContext, VideoDB::class.java, "APP_DB")
-                    .allowMainThreadQueries()
-                    .build()
+            if (dbInstance == null) {
+                dbInstance =
+                    Room.databaseBuilder(context.applicationContext,
+                        VideoDB::class.java, "APP_DB")
+                        .allowMainThreadQueries()
+                        .build()
             }
             return dbInstance!!
         }
