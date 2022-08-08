@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.moviewatcher.Utils.Common
 import com.example.moviewatcher.ViewModel.MainActivityViewModel
 import com.example.moviewatcher.adapter.VideoAdapter
 import com.example.moviewatcher.databinding.ActivityMainBinding
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var manager: RecyclerView.LayoutManager
     private  lateinit var recyclerView: RecyclerView
     private lateinit var adapter :VideoAdapter
+    var videoList : List<Video> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,40 +35,24 @@ class MainActivity : AppCompatActivity() {
         manager = LinearLayoutManager(this)
 
         initMainViewModel()
+
+
     }
 
     private fun initMainViewModel() {
+
+
         val viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
         viewModel.getAllVideoList().observe(this, {
-            //Log.d("tutu", it.size.toString())
-            val videoList : List<Video> = it
+            videoList = it
+            Common.setVideos(videoList)
             binding.recyclerView.apply {
                 adapter = VideoAdapter(videoList, this@MainActivity)
                 layoutManager = manager
             }
+            //Log.d("tutu", Common.videoList.size.toString())
         })
         viewModel.makeApiRequest()
     }
-
-/*    private fun fillRecyclerView() {
-        val viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
-        viewModel.getAllVideoList().observe(this, {
-            Log.d("tutu", it.size.toString())
-            val videoList : List<Video> = it
-        recyclerView = binding.recyclerView
-        adapter = VideoAdapter(videoList,this)
-        if (resources.configuration.orientation ==
-            Configuration.ORIENTATION_PORTRAIT
-        ) {
-            recyclerView.layoutManager = GridLayoutManager(this, 2)
-        } else {
-            recyclerView.layoutManager = GridLayoutManager(this, 4)
-        }
-        recyclerView.itemAnimator = DefaultItemAnimator()
-        recyclerView.adapter = adapter
-        adapter.notifyDataSetChanged()
-        })
-    }*/
-
 
 }

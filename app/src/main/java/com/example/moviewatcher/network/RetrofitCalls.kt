@@ -37,7 +37,7 @@ class RetrofitCalls @Inject constructor(
                 if (rootInfo != null) {
                     val videoList = rootInfo.videos as ArrayList<Video>
                     for (result: Video in videoList) {
-                        Log.d("this_out", result.thumb)
+                        //Log.d("this_out", result.title.toString())
                         insertVideo(result)
                     }
                 }

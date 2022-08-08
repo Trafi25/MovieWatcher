@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MovieWatcher">
         <activity
-            android:name=".PlayerActivity"
+            android:name=".Player.PlayerActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
