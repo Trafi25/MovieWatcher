@@ -38,10 +38,10 @@ class MainActivity : AppCompatActivity() {
     private fun initMainViewModel() {
         val viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
         viewModel.getAllVideoList().observe(this, {
-            Log.d("tutu", it.size.toString())
+            //Log.d("tutu", it.size.toString())
             val videoList : List<Video> = it
             binding.recyclerView.apply {
-                adapter = VideoAdapter(videoList, context)
+                adapter = VideoAdapter(videoList, this@MainActivity)
                 layoutManager = manager
             }
         })

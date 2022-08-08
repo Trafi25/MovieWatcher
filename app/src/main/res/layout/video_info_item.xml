@@ -19,7 +19,8 @@
     android:layout_marginTop="5dp"
     android:layout_marginEnd="5dp"
     android:layout_marginStart="5dp"
-    android:layout_marginBottom="5dp">
+    android:layout_marginBottom="5dp"
+    android:id="@+id/itemVideoContainer">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -61,7 +62,7 @@
 
         <TextView
             android:id="@+id/descriptionTextView"
-            android:layout_width="192dp"
+            android:layout_width="match_parent"
             android:layout_height="79dp"
             android:textSize="10sp"
             android:layout_below="@+id/subtitleTextView"
