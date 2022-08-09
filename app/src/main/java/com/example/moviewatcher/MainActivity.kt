@@ -1,13 +1,12 @@
 package com.example.moviewatcher
 
-import android.content.res.Configuration
+import android.content.SharedPreferences
+import android.net.ConnectivityManager
 import android.os.Bundle
-import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviewatcher.Utils.Common
@@ -20,11 +19,10 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityMainBinding
+    var prefs: SharedPreferences? = null
+    private lateinit var binding: ActivityMainBinding
     private lateinit var manager: RecyclerView.LayoutManager
-    private  lateinit var recyclerView: RecyclerView
-    private lateinit var adapter :VideoAdapter
-    var videoList : List<Video> = mutableListOf()
+    var videoList: List<Video> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,15 +30,36 @@ class MainActivity : AppCompatActivity() {
             this, R.layout.activity_main
         )
         setContentView(binding.root)
+        prefs = getSharedPreferences("com.example.moviewatcher", MODE_PRIVATE);
         manager = LinearLayoutManager(this)
+        if (haveNetworkConnection()) {
+            initMainViewModel()
+        } else {
+            Toast.makeText(this, "Please find internet connection", Toast.LENGTH_SHORT).show()
+        }
+    }
 
-        initMainViewModel()
-
-
+    private fun haveNetworkConnection(): Boolean {
+        var haveConnectedWifi = false
+        var haveConnectedMobile = false
+        val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val netInfo = cm.allNetworkInfo
+        for (networkItem in netInfo) {
+            if (networkItem.typeName.equals(
+                    "WIFI",
+                    ignoreCase = true
+                )
+            ) if (networkItem.isConnected) haveConnectedWifi = true
+            if (networkItem.typeName.equals(
+                    "MOBILE",
+                    ignoreCase = true
+                )
+            ) if (networkItem.isConnected) haveConnectedMobile = true
+        }
+        return haveConnectedWifi || haveConnectedMobile
     }
 
     private fun initMainViewModel() {
-
 
         val viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
         viewModel.getAllVideoList().observe(this, {
@@ -52,7 +71,11 @@ class MainActivity : AppCompatActivity() {
             }
             //Log.d("tutu", Common.videoList.size.toString())
         })
-        viewModel.makeApiRequest()
+        if (prefs?.getBoolean("firstrun", true)!!) {
+            viewModel.makeApiRequest()
+            prefs!!.edit().putBoolean("firstrun", false).commit();
+        }
+
     }
 
 }

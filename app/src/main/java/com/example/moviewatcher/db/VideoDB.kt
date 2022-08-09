@@ -19,8 +19,10 @@ abstract class VideoDB : RoomDatabase() {
         fun getVideoDBInstance(context: Context): VideoDB {
             if (dbInstance == null) {
                 dbInstance =
-                    Room.databaseBuilder(context.applicationContext,
-                        VideoDB::class.java, "APP_DB")
+                    Room.databaseBuilder(
+                        context.applicationContext,
+                        VideoDB::class.java, "APP_DB"
+                    )
                         .allowMainThreadQueries()
                         .build()
             }

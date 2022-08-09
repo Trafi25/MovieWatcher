@@ -1,6 +1,5 @@
 package com.example.moviewatcher.network
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.moviewatcher.db.IAppDao
 import com.example.moviewatcher.model.ListInfo
@@ -21,11 +20,15 @@ class RetrofitCalls @Inject constructor(
     }
 
     private fun insertVideo(repositoryData: Video) {
-        appDao.insertVideoInfos(repositoryData)
+        CoroutineScope(Dispatchers.IO).launch {
+            appDao.insertVideoInfos(repositoryData)
+        }
     }
 
     private fun deleteAllVideoInfo() {
-        appDao.deleteAllVideoInfo()
+        CoroutineScope(Dispatchers.IO).launch {
+            appDao.deleteAllVideoInfo()
+        }
     }
 
     fun getVideoList() {
@@ -42,7 +45,7 @@ class RetrofitCalls @Inject constructor(
                     }
                 }
             } else {
-                Log.d("watas", "i hate life")
+                //Log.d("watas", "i hate life")
             }
         }
     }
