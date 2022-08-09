@@ -44,9 +44,12 @@ class PlayerActivity : AppCompatActivity(), Player.Listener {
         )
         setContentView(binding.root)
         progressBar = binding.progressBar
+        //get the data from recycler view
         fillInActivity()
+        // exoPlayer initialization and data filling
         initPlayer()
 
+        // check for phone state
         if (savedInstanceState != null) {
             if (savedInstanceState.getInt("mediaItem") != 0) {
                 val restoredMediaItem = savedInstanceState.getInt("mediaItem")
@@ -65,6 +68,7 @@ class PlayerActivity : AppCompatActivity(), Player.Listener {
         }
     }
 
+    //hiding upper interface
     @SuppressLint("InlinedApi")
     private fun hideSystemUi() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -106,6 +110,7 @@ class PlayerActivity : AppCompatActivity(), Player.Listener {
         binding.videoView.player = player
         player.addListener(this)
         addItems()
+        //create notification control
         videoNotificationManager.createNotification(player, this)
         player.prepare()
     }

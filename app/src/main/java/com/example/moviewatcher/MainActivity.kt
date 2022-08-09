@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //check the connection
     private fun haveNetworkConnection(): Boolean {
         var haveConnectedWifi = false
         var haveConnectedMobile = false
@@ -59,6 +60,7 @@ class MainActivity : AppCompatActivity() {
         return haveConnectedWifi || haveConnectedMobile
     }
 
+    //load data
     private fun initMainViewModel() {
 
         val viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)

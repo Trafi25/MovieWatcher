@@ -44,9 +44,9 @@ class VideoAdapter(private val videoList: List<Video>, private val context: Cont
         } catch (e: Exception) {
             Log.d("except", e.toString())
         }
+        //open new page and transfer some data
         holder.videoItemBinding.root.setOnClickListener {
-            var cfwef = videosLists.title
-            var videIntent = Intent(context, PlayerActivity::class.java)
+            val videIntent = Intent(context, PlayerActivity::class.java)
             videIntent.putExtra("video", videosLists.title)
             videIntent.putExtra("link", videosLists.sources?.get(0))
             context.startActivity(videIntent)

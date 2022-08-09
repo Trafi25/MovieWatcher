@@ -35,6 +35,7 @@ class RetrofitCalls @Inject constructor(
         CoroutineScope(Dispatchers.IO).launch {
             val response: Response<ListInfo> = IRetrofitServices.getDataFromAPI()
             if (response.isSuccessful) {
+                //if something go wrong and we calling again delete past data
                 deleteAllVideoInfo()
                 val rootInfo: ListInfo? = response.body()
                 if (rootInfo != null) {
